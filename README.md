@@ -15,4 +15,3 @@ sh.send(text)
 ```
 
 See here for some usage examples: https://github.com/treeder/slackbots
-git
