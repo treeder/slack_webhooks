@@ -22,7 +22,7 @@ module SlackWebhooks
         # puts "#{p[0]}=#{p[1]}"
         if p[0] == "command"
           self.command = p[1]
-          puts "command=#{self.command}"
+          # puts "command=#{self.command}"
         end
         if p[0] == "trigger_word"
           # This is for trigger words, not slash commands

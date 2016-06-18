@@ -15,3 +15,10 @@ sh.send(text)
 ```
 
 See here for some usage examples: https://github.com/treeder/slackbots
+
+## Building
+
+```sh
+gem build slack_webhooks.gemspec
+gem push slack_webhooks
+```
