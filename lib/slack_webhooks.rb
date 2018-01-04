@@ -14,7 +14,7 @@ module SlackWebhooks
     # botname is the name to post to the channel with.
     # body is the outgoing webhook POST body that Slack sends.
     # webhook_url is the incoming webhook to post back to slack.
-    def initialize(botname, body, webhook_url)
+    def initialize(botname, body, webhook_url=nil)
       self.botname = botname
       self.webhook_url = webhook_url
       parsed = URI.decode_www_form(body)
@@ -38,6 +38,10 @@ module SlackWebhooks
         if p[0] == "text"
           self.text = p[1].strip
           # puts "text=#{text}"
+        end
+        if p[0] == "response_url" && !webhook_url 
+          # we get it in the post body with more recent slack apps
+          self.webhook_url = p[1]
         end
       end
       if self.channel == "directmessage"
@@ -63,9 +67,9 @@ module SlackWebhooks
     def send(s, options={})
       # Now send it to back to the channel on slack
       s = "#{command} #{text}" if s.nil?
-      notifier = Slack::Notifier.new webhook_url
-      notifier.channel = channel
-      notifier.username = botname
+      notifier = Slack::Notifier.new webhook_url, channel: channel, username: botname
+      # notifier.channel = channel
+      # notifier.username = botname
 
       resp = nil
       attachment = options.delete(:attachment)
